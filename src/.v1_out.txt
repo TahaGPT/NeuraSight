@@ -1,0 +1,7 @@
+=== V1: SIMD Intrinsics (AVX2) Only ===
+Vertices       : 4039
+Edges          : 88234
+Triangles      : 1612010
+Time (s)       : 0.00968763
+Speedup        : 1.67338x
+RESULT v1 0.00968763 1612010

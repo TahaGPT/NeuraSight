@@ -1,0 +1,379 @@
+============================================================
+ Hardware Capability Discovery
+============================================================
+
+--- CPU Summary ---
+Architecture:                            x86_64
+CPU(s):                                  8
+Model name:                              Intel(R) Core(TM) i5-10310U CPU @ 1.70GHz
+Thread(s) per core:                      2
+Core(s) per socket:                      4
+Socket(s):                               1
+CPU max MHz:                             4400.0000
+NUMA node0 CPU(s):                       0-7
+
+--- SIMD Support ---
+  avx             detected
+  avx2            detected
+  fma             detected
+  sse4_2          detected
+
+--- Threading ---
+  Physical cores   : 4
+  Hardware threads : 8
+  OMP threads used : 8 (all HW threads)
+
+--- SIMD Register Width ---
+  Width: 256 bits — 8 x int32 lanes (AVX2)  [ACTIVE]
+
+--- Thread Count Justification ---
+  i5-10310U has 4 physical cores with Hyper-Threading (2 threads/core).
+  Triangle counting is memory-bound for large graphs; both physical
+  and HT threads are used (8 total) to maximise L3-cache utilisation.
+  Dynamic scheduling (chunk=16) handles skewed degree distributions.
+============================================================
+
+============================================================
+ Triangle Counting Benchmark
+ Graph: email-Eu-core.txt
+============================================================
+
+--- Running Baseline (scalar sequential) ---
+=== Baseline (Scalar Sequential) ===
+Vertices       : 1005
+Edges          : 16064
+Triangles      : 105461
+Time (s)       : 0.0025987
+Speedup        : 1.00x (reference)
+RESULT baseline 0.0025987 105461
+
+--- Running V1: SIMD Intrinsics (AVX2) only ---
+=== V1: SIMD Intrinsics (AVX2) Only ===
+Vertices       : 1005
+Edges          : 16064
+Triangles      : 105461
+Time (s)       : 0.00155899
+Speedup        : 1.66691x
+RESULT v1 0.00155899 105461
+
+--- Running V2: OpenMP SIMD directives only ---
+=== V2: OpenMP SIMD Directives Only ===
+Vertices       : 1005
+Edges          : 16064
+Triangles      : 105461
+Time (s)       : 0.00227148
+Speedup        : 1.14405x
+RESULT v2 0.00227148 105461
+
+--- Running V3: OpenMP threading (scalar intersection) ---
+=== V3: OpenMP Threading Only (no explicit SIMD) ===
+Threads used   : 8
+Vertices       : 1005
+Edges          : 16064
+Triangles      : 105461
+Time (s)       : 0.000511848
+Speedup        : 5.07709x
+RESULT v3 0.000511848 105461
+
+--- Running V4: Hybrid AVX2 intrinsics + OpenMP threads ---
+=== V4: Hybrid – AVX2 Intrinsics + OpenMP Threads ===
+Threads used   : 8
+Vertices       : 1005
+Edges          : 16064
+Triangles      : 105461
+Time (s)       : 0.000421546
+Speedup        : 6.16469x
+RESULT v4 0.000421546 105461
+
+--- Running V5: Hybrid OpenMP SIMD + OpenMP threads ---
+=== V5: Hybrid – OpenMP SIMD + OpenMP Threading ===
+Threads used   : 8
+Vertices       : 1005
+Edges          : 16064
+Triangles      : 105461
+Time (s)       : 0.000697251
+Speedup        : 3.72707x
+RESULT v5 0.000697251 105461
+
+============================================================
+ BENCHMARK SUMMARY
+ Graph: email-Eu-core.txt
+============================================================
+Variant    Time (s)       Speedup      Triangles     
+--------------------------------------------------------------
+baseline   0.0025987      1.00x        105461        
+v1         0.00155899     1.67x        105461        
+v2         0.00227148     1.14x        105461        
+v3         0.000511848    5.08x        105461        
+v4         0.000421546    6.16x        105461        
+v5         0.000697251    3.73x        105461        
+--------------------------------------------------------------
+
+--- Best Performing Variant ---
+  Winner: v4 (speedup = 6.1647x)
+
+  Analysis:
+  The Hybrid variant wins because it exploits both levels of
+  parallelism: AVX2 SIMD reduces intersection cost per thread,
+  while OpenMP distributes vertices across all 8 HW threads.
+
+  SIMD details: AVX2 — 256-bit registers — 8 × int32 lanes.
+  Memory: i5-10310U L3 = 6 MiB shared across 4 cores.
+  Threads: 8 (4 physical × 2 HyperThreading), dynamic chunk=16.
+============================================================
+
+Full summary written to: results_summary.txt
+taha@tahagpt:~/Documents/PDC/A2V2$ make
+make: Nothing to be done for 'all'.
+taha@tahagpt:~/Documents/PDC/A2V2$ make run
+============================================================
+ Hardware Capability Discovery
+============================================================
+
+--- CPU Summary ---
+Architecture:                            x86_64
+CPU(s):                                  8
+Model name:                              Intel(R) Core(TM) i5-10310U CPU @ 1.70GHz
+Thread(s) per core:                      2
+Core(s) per socket:                      4
+Socket(s):                               1
+CPU max MHz:                             4400.0000
+NUMA node0 CPU(s):                       0-7
+
+--- SIMD Support ---
+  avx             detected
+  avx2            detected
+  fma             detected
+  sse4_2          detected
+
+--- Threading ---
+  Physical cores   : 4
+  Hardware threads : 8
+  OMP threads used : 8 (all HW threads)
+
+--- SIMD Register Width ---
+  Width: 256 bits — 8 x int32 lanes (AVX2)  [ACTIVE]
+
+--- Thread Count Justification ---
+  i5-10310U has 4 physical cores with Hyper-Threading (2 threads/core).
+  Triangle counting is memory-bound for large graphs; both physical
+  and HT threads are used (8 total) to maximise L3-cache utilisation.
+  Dynamic scheduling (chunk=16) handles skewed degree distributions.
+============================================================
+
+============================================================
+ Triangle Counting Benchmark
+ Graph: com-lj.ungraph.txt
+============================================================
+
+--- Running Baseline (scalar sequential) ---
+=== Baseline (Scalar Sequential) ===
+Vertices       : 4036538
+Edges          : 34681189
+Triangles      : 177820130
+Time (s)       : 9.4071
+Speedup        : 1.00x (reference)
+RESULT baseline 9.4071 177820130
+
+--- Running V1: SIMD Intrinsics (AVX2) only ---
+=== V1: SIMD Intrinsics (AVX2) Only ===
+Vertices       : 4036538
+Edges          : 34681189
+Triangles      : 177820130
+Time (s)       : 8.0139
+Speedup        : 1.17385x
+RESULT v1 8.0139 177820130
+
+--- Running V2: OpenMP SIMD directives only ---
+=== V2: OpenMP SIMD Directives Only ===
+Vertices       : 4036538
+Edges          : 34681189
+Triangles      : 177820130
+Time (s)       : 9.1191
+Speedup        : 1.03158x
+RESULT v2 9.1191 177820130
+
+--- Running V3: OpenMP threading (scalar intersection) ---
+=== V3: OpenMP Threading Only (no explicit SIMD) ===
+Threads used   : 8
+Vertices       : 4036538
+Edges          : 34681189
+Triangles      : 177820130
+Time (s)       : 1.30382
+Speedup        : 7.21502x
+RESULT v3 1.30382 177820130
+
+--- Running V4: Hybrid AVX2 intrinsics + OpenMP threads ---
+=== V4: Hybrid – AVX2 Intrinsics + OpenMP Threads ===
+Threads used   : 8
+Vertices       : 4036538
+Edges          : 34681189
+Triangles      : 177820130
+Time (s)       : 1.00093
+Speedup        : 9.39832x
+RESULT v4 1.00093 177820130
+
+--- Running V5: Hybrid OpenMP SIMD + OpenMP threads ---
+=== V5: Hybrid – OpenMP SIMD + OpenMP Threading ===
+Threads used   : 8
+Vertices       : 4036538
+Edges          : 34681189
+Triangles      : 177820130
+Time (s)       : 2.05017
+Speedup        : 4.58846x
+RESULT v5 2.05017 177820130
+
+============================================================
+ BENCHMARK SUMMARY
+ Graph: com-lj.ungraph.txt
+============================================================
+Variant    Time (s)       Speedup      Triangles     
+--------------------------------------------------------------
+baseline   9.4071         1.00x        177820130     
+v1         8.0139         1.17x        177820130     
+v2         9.1191         1.03x        177820130     
+v3         1.30382        7.22x        177820130     
+v4         1.00093        9.40x        177820130     
+v5         2.05017        4.59x        177820130     
+--------------------------------------------------------------
+
+--- Best Performing Variant ---
+  Winner: v4 (speedup = 9.3984x)
+
+  Analysis:
+  The Hybrid variant wins because it exploits both levels of
+  parallelism: AVX2 SIMD reduces intersection cost per thread,
+  while OpenMP distributes vertices across all 8 HW threads.
+
+  SIMD details: AVX2 — 256-bit registers — 8 × int32 lanes.
+  Memory: i5-10310U L3 = 6 MiB shared across 4 cores.
+  Threads: 8 (4 physical × 2 HyperThreading), dynamic chunk=16.
+============================================================
+
+Full summary written to: results_summary.txt
+taha@tahagpt:~/Documents/PDC/A2V2$ make run
+============================================================
+ Hardware Capability Discovery
+============================================================
+
+--- CPU Summary ---
+Architecture:                            x86_64
+CPU(s):                                  8
+Model name:                              Intel(R) Core(TM) i5-10310U CPU @ 1.70GHz
+Thread(s) per core:                      2
+Core(s) per socket:                      4
+Socket(s):                               1
+CPU max MHz:                             4400.0000
+NUMA node0 CPU(s):                       0-7
+
+--- SIMD Support ---
+  avx             detected
+  avx2            detected
+  fma             detected
+  sse4_2          detected
+
+--- Threading ---
+  Physical cores   : 4
+  Hardware threads : 8
+  OMP threads used : 8 (all HW threads)
+
+--- SIMD Register Width ---
+  Width: 256 bits — 8 x int32 lanes (AVX2)  [ACTIVE]
+
+--- Thread Count Justification ---
+  i5-10310U has 4 physical cores with Hyper-Threading (2 threads/core).
+  Triangle counting is memory-bound for large graphs; both physical
+  and HT threads are used (8 total) to maximise L3-cache utilisation.
+  Dynamic scheduling (chunk=16) handles skewed degree distributions.
+============================================================
+
+============================================================
+ Triangle Counting Benchmark
+ Graph: facebook_combined.txt
+============================================================
+
+--- Running Baseline (scalar sequential) ---
+=== Baseline (Scalar Sequential) ===
+Vertices       : 4039
+Edges          : 88234
+Triangles      : 1612010
+Time (s)       : 0.0160199
+Speedup        : 1.00x (reference)
+RESULT baseline 0.0160199 1612010
+
+--- Running V1: SIMD Intrinsics (AVX2) only ---
+=== V1: SIMD Intrinsics (AVX2) Only ===
+Vertices       : 4039
+Edges          : 88234
+Triangles      : 1612010
+Time (s)       : 0.00980686
+Speedup        : 1.63354x
+RESULT v1 0.00980686 1612010
+
+--- Running V2: OpenMP SIMD directives only ---
+=== V2: OpenMP SIMD Directives Only ===
+Vertices       : 4039
+Edges          : 88234
+Triangles      : 1612010
+Time (s)       : 0.014098
+Speedup        : 1.13633x
+RESULT v2 0.014098 1612010
+
+--- Running V3: OpenMP threading (scalar intersection) ---
+=== V3: OpenMP Threading Only (no explicit SIMD) ===
+Threads used   : 8
+Vertices       : 4039
+Edges          : 88234
+Triangles      : 1612010
+Time (s)       : 0.00225672
+Speedup        : 7.09877x
+RESULT v3 0.00225672 1612010
+
+--- Running V4: Hybrid AVX2 intrinsics + OpenMP threads ---
+=== V4: Hybrid – AVX2 Intrinsics + OpenMP Threads ===
+Threads used   : 8
+Vertices       : 4039
+Edges          : 88234
+Triangles      : 1612010
+Time (s)       : 0.00147908
+Speedup        : 10.831x
+RESULT v4 0.00147908 1612010
+
+--- Running V5: Hybrid OpenMP SIMD + OpenMP threads ---
+=== V5: Hybrid – OpenMP SIMD + OpenMP Threading ===
+Threads used   : 8
+Vertices       : 4039
+Edges          : 88234
+Triangles      : 1612010
+Time (s)       : 0.0111631
+Speedup        : 1.43508x
+RESULT v5 0.0111631 1612010
+
+============================================================
+ BENCHMARK SUMMARY
+ Graph: facebook_combined.txt
+============================================================
+Variant    Time (s)       Speedup      Triangles     
+--------------------------------------------------------------
+baseline   0.0160199      1.00x        1612010       
+v1         0.00980686     1.63x        1612010       
+v2         0.014098       1.14x        1612010       
+v3         0.00225672     7.10x        1612010       
+v4         0.00147908     10.83x       1612010       
+v5         0.0111631      1.44x        1612010       
+--------------------------------------------------------------
+
+--- Best Performing Variant ---
+  Winner: v4 (speedup = 10.8310x)
+
+  Analysis:
+  The Hybrid variant wins because it exploits both levels of
+  parallelism: AVX2 SIMD reduces intersection cost per thread,
+  while OpenMP distributes vertices across all 8 HW threads.
+
+  SIMD details: AVX2 — 256-bit registers — 8 × int32 lanes.
+  Memory: i5-10310U L3 = 6 MiB shared across 4 cores.
+  Threads: 8 (4 physical × 2 HyperThreading), dynamic chunk=16.
+============================================================
+
+Full summary written to: results_summary.txt

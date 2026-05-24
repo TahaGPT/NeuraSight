@@ -1,0 +1,7 @@
+=== V2: OpenMP SIMD Directives Only ===
+Vertices       : 4039
+Edges          : 88234
+Triangles      : 1612010
+Time (s)       : 0.0145969
+Speedup        : 1.11059x
+RESULT v2 0.0145969 1612010

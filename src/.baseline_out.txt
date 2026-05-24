@@ -1,0 +1,7 @@
+=== Baseline (Scalar Sequential) ===
+Vertices       : 4039
+Edges          : 88234
+Triangles      : 1612010
+Time (s)       : 0.0162111
+Speedup        : 1.00x (reference)
+RESULT baseline 0.0162111 1612010

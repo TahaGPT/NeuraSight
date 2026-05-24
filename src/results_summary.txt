@@ -1,0 +1,83 @@
+============================================================
+ FULL BENCHMARK SUMMARY
+============================================================
+
+============================================================
+ BENCHMARK SUMMARY
+ Graph: email-Eu-core.txt
+============================================================
+Variant    Time (s)       Speedup      Triangles     
+--------------------------------------------------------------
+baseline   0.0026451      1.00x        105461        
+v1         0.00171248     1.54x        105461        
+v2         0.00236793     1.12x        105461        
+v3         0.00055768     4.74x        105461        
+v4         0.00417328     0.63x        105461        
+v5         0.000777612    3.40x        105461        
+--------------------------------------------------------------
+
+--- Best Performing Variant ---
+  Winner: v3 (speedup = 4.7430x)
+
+  Analysis:
+  OpenMP threading wins: graph fits in L3 cache and
+  thread-level parallelism is the dominant factor.
+
+  SIMD details: AVX2 — 256-bit registers — 8 x int32 lanes.
+  Memory: i5-10310U L3 = 6 MiB shared across 4 cores.
+  Threads: 8 (4 physical x 2 HyperThreading), dynamic chunk=16.
+============================================================
+
+============================================================
+ BENCHMARK SUMMARY
+ Graph: com-lj.ungraph.txt
+============================================================
+Variant    Time (s)       Speedup      Triangles     
+--------------------------------------------------------------
+baseline   9.53053        1.00x        177820130     
+v1         7.96738        1.20x        177820130     
+v2         9.0737         1.05x        177820130     
+v3         1.50608        6.33x        177820130     
+v4         1.27727        7.46x        177820130     
+v5         2.12164        4.49x        177820130     
+--------------------------------------------------------------
+
+--- Best Performing Variant ---
+  Winner: v4 (speedup = 7.4616x)
+
+  Analysis:
+  The Hybrid variant wins because it exploits both levels of
+  parallelism: AVX2 SIMD reduces intersection cost per thread,
+  while OpenMP distributes vertices across all 8 HW threads.
+
+  SIMD details: AVX2 — 256-bit registers — 8 x int32 lanes.
+  Memory: i5-10310U L3 = 6 MiB shared across 4 cores.
+  Threads: 8 (4 physical x 2 HyperThreading), dynamic chunk=16.
+============================================================
+
+============================================================
+ BENCHMARK SUMMARY
+ Graph: facebook_combined.txt
+============================================================
+Variant    Time (s)       Speedup      Triangles     
+--------------------------------------------------------------
+baseline   0.0162111      1.00x        1612010       
+v1         0.00968763     1.67x        1612010       
+v2         0.0145969      1.11x        1612010       
+v3         0.00232734     6.97x        1612010       
+v4         0.0149884      1.08x        1612010       
+v5         0.00504824     3.21x        1612010       
+--------------------------------------------------------------
+
+--- Best Performing Variant ---
+  Winner: v3 (speedup = 6.9655x)
+
+  Analysis:
+  OpenMP threading wins: graph fits in L3 cache and
+  thread-level parallelism is the dominant factor.
+
+  SIMD details: AVX2 — 256-bit registers — 8 x int32 lanes.
+  Memory: i5-10310U L3 = 6 MiB shared across 4 cores.
+  Threads: 8 (4 physical x 2 HyperThreading), dynamic chunk=16.
+============================================================
+

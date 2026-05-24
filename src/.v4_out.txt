@@ -1,0 +1,8 @@
+=== V4: Hybrid – AVX2 Intrinsics + OpenMP Threads ===
+Threads used   : 8
+Vertices       : 4039
+Edges          : 88234
+Triangles      : 1612010
+Time (s)       : 0.0149884
+Speedup        : 1.08158x
+RESULT v4 0.0149884 1612010

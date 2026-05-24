@@ -1,0 +1,8 @@
+=== V3: OpenMP Threading Only (no explicit SIMD) ===
+Threads used   : 8
+Vertices       : 4039
+Edges          : 88234
+Triangles      : 1612010
+Time (s)       : 0.00232734
+Speedup        : 6.96552x
+RESULT v3 0.00232734 1612010

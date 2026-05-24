@@ -1,0 +1,8 @@
+=== V5: Hybrid – OpenMP SIMD + OpenMP Threading ===
+Threads used   : 8
+Vertices       : 4039
+Edges          : 88234
+Triangles      : 1612010
+Time (s)       : 0.00504824
+Speedup        : 3.21124x
+RESULT v5 0.00504824 1612010
